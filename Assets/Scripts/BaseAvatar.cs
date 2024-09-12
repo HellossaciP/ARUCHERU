@@ -9,9 +9,12 @@ public abstract class BaseAvatar : MonoBehaviour
     [SerializeField] protected float maxHealth;
     protected float health;
 
+    bool invincible;
+
     // Start is called before the first frame update
     void Start()
     {
+        invincible = false;
         health = maxHealth;
     }
 
@@ -28,10 +31,13 @@ public abstract class BaseAvatar : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        health -= damage;
-        if (health <= 0)
+        if (!invincible)
         {
-            Die();
+            health -= damage;
+            if (health <= 0)
+            {
+                Die();
+            }
         }
     }
 
@@ -40,5 +46,10 @@ public abstract class BaseAvatar : MonoBehaviour
     public float GetHealthRatio()
     {
         return health/maxHealth;
+    }
+
+    public void SetInvincibility(bool invincibility)
+    {
+        invincible = invincibility;
     }
 }

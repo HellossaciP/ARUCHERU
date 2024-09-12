@@ -5,12 +5,14 @@ using UnityEngine;
 public class ProjectileLauncher : MonoBehaviour
 {
 
-    [SerializeField] Projectile projectile;
+    [SerializeField] Projectile[] projectiles;
+    [SerializeField] float[] cooldowns;
+    [SerializeField] float[] costs;
+    [SerializeField] float[] damages;
+    [SerializeField] Vector2[] speeds;
 
-    [SerializeField] float damage;
-    [SerializeField] Vector2 speed;
-    [SerializeField] float cooldown;
-    [SerializeField] float cost;
+    int weaponID;
+    int maxWeaponID;
     bool isOnCD;
 
     PlayerAvatar player;
@@ -20,6 +22,8 @@ public class ProjectileLauncher : MonoBehaviour
     {
         player = GetComponent<PlayerAvatar>();
         isOnCD = false;
+        maxWeaponID = 1;
+        weaponID = 0;
     }
 
     // Update is called once per frame
@@ -32,19 +36,24 @@ public class ProjectileLauncher : MonoBehaviour
     {
         if (!(isOnCD || player.IsBurnout()))
         {
-            if (player.Cost(cost))
+            if (player.Cost(costs[weaponID]))
             {
-                Projectile nprojectile = Instantiate(projectile, transform.position + transform.right, Quaternion.Euler(0, 0, 90));
-                nprojectile.Init(damage, speed);
+                Projectile nprojectile = Instantiate(projectiles[weaponID], transform.position + transform.right, Quaternion.Euler(0, 0, 90));
+                nprojectile.Init(damages[weaponID], speeds[weaponID]);
                 StartCoroutine(CoolDown());
             }
         }
     }
 
+    public void SwitchWeapon()
+    {
+        weaponID = (weaponID + 1) % (maxWeaponID + 1);
+    }
+
     IEnumerator CoolDown()
     {
         isOnCD = true;
-        yield return new WaitForSeconds(cooldown);
+        yield return new WaitForSeconds(cooldowns[weaponID]);
         isOnCD = false;
     }
 

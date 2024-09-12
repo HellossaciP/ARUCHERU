@@ -8,26 +8,26 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] PlayerAvatar player;
     [SerializeField] EnemyAvatar enemy;
-    PlayerAvatar myPlayer;
 
-    bool win = false;
-    bool loose = false;
+    [SerializeField] UIManager uIManager;
+
+    int score;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        myPlayer = Instantiate(player, new Vector2(-7f, 0f), Quaternion.identity);
+        score = 0;
+        Instantiate(player, new Vector2(-7f, 0f), Quaternion.identity);
         PlayerAvatar.onDeathEvent += GameOver;
+        EnemyAvatar.onEnemyDeathEvent += IncreaseScore;
         StartCoroutine(SpawnEnemies());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (myPlayer == null)
-        {
-            loose = true;
-        }
+
     }
 
     void GameOver()
@@ -35,9 +35,15 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
+    void IncreaseScore()
+    {
+        score += 1;
+        uIManager.SetScore(score);
+    }
+
     IEnumerator SpawnEnemies()
     {
-        while (!(win || loose))
+        while (true)
         {
             Instantiate(enemy, new Vector2(9, (Random.value - 0.5f) * 8), Quaternion.identity);
             yield return new WaitForSeconds(3);

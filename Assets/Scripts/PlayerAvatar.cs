@@ -29,11 +29,11 @@ public class PlayerAvatar : BaseAvatar
         {
             if (burnout)
             {
-                energy += 7.5f;
+                energy += 0.75f;
             }
             else if (!launcher.IsFiring())
             {
-                energy += 10;
+                energy += 1;
             }
             if (energy >= maxEnergy)
             {
@@ -44,7 +44,7 @@ public class PlayerAvatar : BaseAvatar
             {
                 burnout = true;
             }
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
