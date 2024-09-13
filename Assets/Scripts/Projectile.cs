@@ -23,7 +23,7 @@ public abstract class Projectile : MonoBehaviour
         UpdatePosition();
     }
 
-    public virtual void Init(float idamage, Vector2 ispeed)
+    public virtual void Init(float idamage, Vector2 ispeed, Vector2 iposition, Quaternion irotation)
     {
 
     }
@@ -36,7 +36,6 @@ public abstract class Projectile : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         collision.gameObject.GetComponent<BaseAvatar>().TakeDamage(damage);
-        Debug.Log(damage);
-        Destroy(gameObject);
+        ProjectileFactory.instance.Release(this);
     }
 }

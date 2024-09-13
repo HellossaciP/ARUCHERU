@@ -16,10 +16,12 @@ public class SimpleProjectile : Projectile
         UpdatePosition();
     }
 
-    public override void Init(float idamage, Vector2 ispeed)
+    public override void Init(float idamage, Vector2 ispeed, Vector2 iposition, Quaternion irotation)
     {
         damage = idamage;
         speed = ispeed;
+        position = iposition;
+        transform.SetPositionAndRotation(position, irotation);
     }
 
     protected override void UpdatePosition()
@@ -30,7 +32,7 @@ public class SimpleProjectile : Projectile
 
         if (position.x > 10 || position.y > 10 || position.x < -10 || position.y < -10)
         {
-            Destroy(gameObject);
+            ProjectileFactory.instance.Release(this);
         }
     }
 }

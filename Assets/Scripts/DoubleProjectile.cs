@@ -11,13 +11,17 @@ public class DoubleProjectile : Projectile
         UpdatePosition();
     }
 
-    public override void Init(float idamage, Vector2 ispeed)
+    public override void Init(float idamage, Vector2 ispeed, Vector2 iposition, Quaternion irotation)
     {
         damage = idamage;
-        speed = Quaternion.Euler(0, 0, 30) * ispeed;
-        transform.Rotate(new Vector3(0, 0, 30));
-        Projectile clone = Instantiate(simpleProjectile, transform.position, Quaternion.Euler(0, 0, 60));
-        clone.Init(damage, Quaternion.Euler(0, 0, -30) * ispeed);
+        speed = ispeed;
+        position = iposition;
+        transform.SetPositionAndRotation(iposition, irotation);
+        transform.Rotate(new Vector3 (0, 0, 30));
+        Projectile clone = ProjectileFactory.instance.GetProjectile(ProjectileType.SIMPLE);
+        clone.transform.Rotate(new Vector3(0, 0, 60));
+        clone.Init(damage, Quaternion.Euler(0, 0, -60) * ispeed, iposition, irotation);
+        clone.transform.Rotate(new Vector3(0, 0, -30));
     }
 
     protected override void UpdatePosition()
@@ -28,7 +32,7 @@ public class DoubleProjectile : Projectile
 
         if (position.x > 10 || position.y > 10 || position.x < -10 || position.y < -10)
         {
-            Destroy(gameObject);
+            ProjectileFactory.instance.Release(this);
         }
     }
 }

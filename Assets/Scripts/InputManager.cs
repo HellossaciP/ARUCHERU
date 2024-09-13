@@ -6,6 +6,8 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
 
+    public static InputManager instance;
+
     Movement movement;
     ProjectileLauncher launcher;
     PlayerAvatar player;

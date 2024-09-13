@@ -27,8 +27,8 @@ public class AIEnemyBasicProjectileLauncher : MonoBehaviour
     {
         while(true)
         {
-            Projectile nprojectile = Instantiate(projectile, transform.position - transform.right, Quaternion.Euler(0, 0, -90));
-            nprojectile.Init(damage, speed);
+            Projectile nprojectile = ProjectileFactory.instance.GetProjectile(ProjectileType.ENEMY);
+            nprojectile.Init(damage, speed, transform.position - transform.right, Quaternion.Euler(0, 0, -90));
             yield return new WaitForSeconds(cooldown);
         }
     }

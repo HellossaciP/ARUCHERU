@@ -6,12 +6,21 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
 
+    public static GameManager instance;
+
     [SerializeField] PlayerAvatar player;
     [SerializeField] EnemyAvatar enemy;
 
     [SerializeField] UIManager uIManager;
 
     int score;
+
+    [SerializeField] TextAsset level;
+
+    LevelDescription data;
+    Level currentLevel;
+
+    float initialTimer;
 
 
     // Start is called before the first frame update
@@ -21,13 +30,23 @@ public class GameManager : MonoBehaviour
         Instantiate(player, new Vector2(-7f, 0f), Quaternion.identity);
         PlayerAvatar.onDeathEvent += GameOver;
         EnemyAvatar.onEnemyDeathEvent += IncreaseScore;
-        StartCoroutine(SpawnEnemies());
+
+        data = XmlHelpers.DeserializeFromXML<LevelDescription>(level);
+        currentLevel = new Level();
+        currentLevel.Initialize(data);
+
+        initialTimer = Time.time;
+
+        foreach (EnemyDescription enemyDescription in currentLevel.description.EnemyDescriptions)
+        {
+            StartCoroutine(WaitAndSpawn(enemyDescription.SpawnDate, enemyDescription.SpawnPosition));
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        currentLevel.Update();
     }
 
     void GameOver()
@@ -41,12 +60,12 @@ public class GameManager : MonoBehaviour
         uIManager.SetScore(score);
     }
 
-    IEnumerator SpawnEnemies()
+    IEnumerator WaitAndSpawn(float date, Vector2 position)
     {
-        while (true)
+        while (Time.time - initialTimer < date)
         {
-            Instantiate(enemy, new Vector2(9, (Random.value - 0.5f) * 8), Quaternion.identity);
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(0.1f);
         }
+        Instantiate(enemy, position, Quaternion.identity);
     }
 }

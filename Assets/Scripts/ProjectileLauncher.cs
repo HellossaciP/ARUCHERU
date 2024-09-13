@@ -15,6 +15,8 @@ public class ProjectileLauncher : MonoBehaviour
     int maxWeaponID;
     bool isOnCD;
 
+    ProjectileType type;
+
     PlayerAvatar player;
 
     // Start is called before the first frame update
@@ -24,6 +26,7 @@ public class ProjectileLauncher : MonoBehaviour
         isOnCD = false;
         maxWeaponID = 1;
         weaponID = 0;
+        type = ProjectileType.SIMPLE;
     }
 
     // Update is called once per frame
@@ -38,8 +41,8 @@ public class ProjectileLauncher : MonoBehaviour
         {
             if (player.Cost(costs[weaponID]))
             {
-                Projectile nprojectile = Instantiate(projectiles[weaponID], transform.position + transform.right, Quaternion.Euler(0, 0, 90));
-                nprojectile.Init(damages[weaponID], speeds[weaponID]);
+                Projectile nprojectile = ProjectileFactory.instance.GetProjectile(type);
+                nprojectile.Init(damages[weaponID], speeds[weaponID], transform.position + transform.right, Quaternion.Euler(0, 0, 90));
                 StartCoroutine(CoolDown());
             }
         }
@@ -47,7 +50,16 @@ public class ProjectileLauncher : MonoBehaviour
 
     public void SwitchWeapon()
     {
-        weaponID = (weaponID + 1) % (maxWeaponID + 1);
+        if (weaponID == 0)
+        {
+            weaponID = 1;
+            type = ProjectileType.DOUBLE;
+        }
+        else if ( weaponID == maxWeaponID)
+        {
+            weaponID = 0;
+            type = ProjectileType.SIMPLE;
+        }
     }
 
     IEnumerator CoolDown()
