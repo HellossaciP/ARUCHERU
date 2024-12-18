@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] UIManager uIManager;
 
+    [SerializeField] SerialHandler serialHandler;
+
     int score;
 
     [SerializeField] TextAsset level;

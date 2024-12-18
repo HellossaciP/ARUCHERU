@@ -347,6 +347,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 310364044}
   m_CullTransparentMesh: 1
+--- !u!1 &504675749
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 504675751}
+  - component: {fileID: 504675750}
+  m_Layer: 0
+  m_Name: Serial
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &504675750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504675749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c1d59a94b5a4ad49ade710189238b8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serialPort: COM3
+  baudrate: 115200
+  river: {fileID: 0}
+--- !u!4 &504675751
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504675749}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 47.9043, y: 122.66088, z: -13.529685}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -859,6 +906,7 @@ MonoBehaviour:
   player: {fileID: -5004575884553361632, guid: b399585e79d6960458d147ab35bcedc5, type: 3}
   enemy: {fileID: -3182263944288442986, guid: a6da074a33de13d4e8fce78774f638b1, type: 3}
   uIManager: {fileID: 992118156}
+  serialHandler: {fileID: 504675750}
   level: {fileID: 4900000, guid: 815ee149a7f0bb545be1633a92c956a6, type: 3}
 --- !u!1 &1719884730
 GameObject:
@@ -1190,3 +1238,4 @@ SceneRoots:
   - {fileID: 992118155}
   - {fileID: 2144560218}
   - {fileID: 1745803196}
+  - {fileID: 504675751}

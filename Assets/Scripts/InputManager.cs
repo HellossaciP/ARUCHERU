@@ -14,6 +14,7 @@ public class InputManager : MonoBehaviour
 
     Vector2 speed;
 
+
     [SerializeField] float dashCost;
     [SerializeField] int dashDistance;
     [SerializeField] float dashWindow;
@@ -34,6 +35,8 @@ public class InputManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        instance = this;
+
         lastPressedRight = -999f;
         lastPressedLeft = -999f;
         lastPressedUp = -999f;
@@ -55,12 +58,18 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isRightPressed = Input.GetAxisRaw("Horizontal") > 0.5f;
-        isLeftPressed = Input.GetAxisRaw("Horizontal") < -0.5f;
-        isUpPressed = Input.GetAxisRaw("Vertical") > 0.5f;
-        isDownPressed = Input.GetAxisRaw("Vertical") < -0.5f;
+        Debug.Log(SerialHandler.instance);
+        float x = SerialHandler.instance.GetVector().x;
+        float y = SerialHandler.instance.GetVector().y;
 
-        speed = (new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"))).normalized;
+        Debug.Log(x);
+
+        isRightPressed =  x > 0.9f;
+        isLeftPressed = x < 0.1f;
+        isUpPressed = y > 0.9f;
+        isDownPressed = y < 0.1f;
+
+        speed = (new Vector2(x-0.5f, y-0.5f)).normalized;
         movement.setSpeed(speed);
         transform.position = new Vector2(Mathf.Clamp(transform.position.x, -7.7f, -5.5f), Mathf.Clamp(transform.position.y, -4.5f, 4.5f));
 

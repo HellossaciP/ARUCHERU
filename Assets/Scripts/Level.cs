@@ -16,9 +16,6 @@ public class Level
     {
         foreach (EnemyDescription enemy in description.EnemyDescriptions)
         {
-            Debug.Log("oo");
-            Debug.Log(enemy.SpawnPosition);
-            Debug.Log(enemy.SpawnDate);
         }
     }
 }
